@@ -54,7 +54,7 @@ function the_content( $more_link_text = null, $strip_teaser = false) {
 ## Por quê!?
 
 * Mude o comportamento do WP sem mexer em arquivos do core;
-* Não é possível ter temas netos. Altere temas filho sem alterar os arquivos do tema. Ex: temas que usam Genesis ou outros frameworks;
+* Não é possível ter temas netos. Altere temas filho sem alterar os arquivos do tema. Ex: temas que usam frameworks;
 * Separe os hooks em plugins para modulação e fácil ativação/desativação;
 * Mantenha tema/WP/plugins funcionando com updates;
 
@@ -87,7 +87,7 @@ function the_content( $more_link_text = null, $strip_teaser = false) {
 
 ```
 add_filter( 'the_content', function( $content ) {
-	return str_replace( 'Valdemort', 'Aquele que não podemos falar o nome', $content );
+	return str_replace( 'Valdemort', 'Aquele-Que-Não-Deve-Ser-Nomeado', $content );
 }, 30 );
 ```
 
@@ -132,7 +132,7 @@ __`tacensi_never_say_his_name`__
 ```
 add_filter( 'the_content', 'tacensi_never_say_his_name', 30 );
 function tacensi_never_say_his_name( $content ) {
-	return str_replace( 'Valdemort', 'Aquele que não podemos falar o nome', $content );
+	return str_replace( 'Voldemort', 'Aquele-Que-Não-Deve-Ser-Nomeado', $content );
 }
 ```
 
@@ -146,14 +146,14 @@ Ordem de execução de todas as funções penduradas naquele hook. São executad
 
 ```
 // Actions
-add_action( 'wp_head',             '_wp_render_title_tag',            1     );
-add_action( 'wp_head',             'wp_enqueue_scripts',              1     );
-add_action( 'wp_head',             'feed_links',                      2     );
-add_action( 'wp_head',             'feed_links_extra',                3     );
-add_action( 'wp_head',             'rsd_link'                               );
-add_action( 'wp_head',             'wlwmanifest_link'                       );
-add_action( 'wp_head',             'adjacent_posts_rel_link_wp_head', 10, 0 );
-add_action( 'wp_head',             'locale_stylesheet'                      );
+add_action( 'wp_head', '_wp_render_title_tag',            1     );
+add_action( 'wp_head', 'wp_enqueue_scripts',              1     );
+add_action( 'wp_head', 'feed_links',                      2     );
+add_action( 'wp_head', 'feed_links_extra',                3     );
+add_action( 'wp_head', 'rsd_link'                               );
+add_action( 'wp_head', 'wlwmanifest_link'                       );
+add_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
+add_action( 'wp_head', 'locale_stylesheet'                      );
 add_action( 'publish_future_post', 'check_and_publish_future_post',   10, 1 );
 add_action( 'wp_head',             'noindex',                          1    );
 add_action( 'wp_head',             'print_emoji_detection_script',     7    );
@@ -246,11 +246,11 @@ function tacensi_remove_header_info() {
 add_action( 'init', 'tacensi_remove_header_info' );
 ```
 
-## NVR
+## nvr
 
 Exemplos da Vida Real:
 
-Removendo informações do `<head>`:
+### Limpando `<head>`:
 
 
 ```
@@ -268,7 +268,7 @@ add_action( 'init', 'tacensi_remove_header_info' );
 
 ### WooCommerce
 
-Extendendo o WooCommerce:
+Modificando o WooCommerce:
 
 #### Action
 
@@ -287,7 +287,7 @@ function tacensi_add_promo() {
 #### Filter
 
 ```
-add_filter( 'woocommerce_free_price_html', 'tacensi_free_price' );
+    add_filter( 'woocommerce_free_price_html', 'tacensi_free_price' );
 function tacensi_free_price( $price ) {
 	$price = '<span class="amount">' .
 		__( 'Totalmente de GRÁTIS!', 'tacensi' ) .
@@ -298,4 +298,12 @@ function tacensi_free_price( $price ) {
 
 ### Twentyseventeen
 
+Filtro com número de seções na front page:
 
+```
+add_filter( 'twentyseventeen_front_page_sections', function(){
+    return 5;
+});
+```
+
+http://adambrown.info/p/wp_hooks
